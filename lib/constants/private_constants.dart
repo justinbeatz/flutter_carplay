@@ -11,9 +11,11 @@ enum FCPChannelTypes {
   popTemplate,
   closePresent,
   pushTemplate,
+  showNowPlaying,
   onGridButtonPressed,
   setActionSheet,
   onBarButtonPressed,
   onTextButtonPressed,
   popToRootTemplate,
+  updateTabBarTemplates,
 }
