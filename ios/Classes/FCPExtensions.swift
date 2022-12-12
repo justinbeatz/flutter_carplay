@@ -19,13 +19,12 @@ extension UIImage {
     } else if (name.starts(with: "file://")) {
       return fromFile(path: name)
     }
-    return fromFlutterAsset(name: name)
+    return fromAsset(name: name)
   }
     
   @available(iOS 14.0, *)
-  func fromFlutterAsset(name: String) -> UIImage {
-    let key: String? = SwiftFlutterCarplayPlugin.registrar?.lookupKey(forAsset: name)
-    let image: UIImage? = UIImage(imageLiteralResourceName: key!)
+  func fromAsset(name: String) -> UIImage {
+    let image: UIImage? = UIImage(named: name)
     return image ?? UIImage(systemName: "questionmark")!
   }
 
@@ -38,7 +37,9 @@ extension UIImage {
 
   @available(iOS 14.0, *)
   func fromUrl(url: String) -> UIImage {
-      let url = URL(string: url)
+      let utf8url = url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+      let url = URL(string: utf8url)
+      
       let data = try? Data(contentsOf: url!)
       guard let data = data else {
           return UIImage(systemName: "questionmark")!

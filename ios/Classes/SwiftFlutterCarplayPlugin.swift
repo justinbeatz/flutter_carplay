@@ -178,11 +178,55 @@ public class SwiftFlutterCarplayPlugin: NSObject, FlutterPlugin {
         result(false)
         return
       }
+        
       let template = FCPSharedNowPlayingTemplate()
+        for template in FlutterCarPlaySceneDelegate.getTemplates() {
+            if template is CPNowPlayingTemplate {
+                result(true)
+                break
+            }
+        }
+        
       SwiftFlutterCarplayPlugin.templateStack.append(template)
       FlutterCarPlaySceneDelegate.push(template: template.get, animated: animated)
       result(true)
       break
+    case FCPChannelTypes.updateNowPlayingButtons:
+        guard let args = call.arguments as? [String : Any] else {
+          result(false)
+          return
+        }
+        var buttons: [CPNowPlayingImageButton] = []
+        let newButtons = args["buttons"] as! Array<[String : Any]>
+        for button in newButtons {
+            buttons.append(FCPNowPlayingImageButton(obj: button).get)
+        }
+        
+        CPNowPlayingTemplate.shared.updateNowPlayingButtons(buttons)
+        result(true)
+        break
+    case FCPChannelTypes.updateNowPlayingUpNext:
+        guard let args = call.arguments as? [String : Any] else {
+          result(false)
+          return
+        }
+        
+        let upNextTitle = args["upNextTitle"] as? String ?? nil
+        let upNextEnabled = args["upNextEnabled"] as! Bool
+        
+        if (upNextTitle != nil) {
+            CPNowPlayingTemplate.shared.upNextTitle = upNextTitle!
+        }
+        if (upNextEnabled) {
+            CPNowPlayingTemplate.shared.add(FCPNowPlayingTemplateObserver.sharedInstance)
+        } else {
+            CPNowPlayingTemplate.shared.remove(FCPNowPlayingTemplateObserver.sharedInstance)
+        }
+        
+        CPNowPlayingTemplate.shared.isUpNextButtonEnabled = upNextEnabled
+        
+        result(true)
+        break
     case FCPChannelTypes.pushTemplate:
       guard let args = call.arguments as? [String : Any] else {
         result(false)
@@ -243,6 +287,15 @@ public class SwiftFlutterCarplayPlugin: NSObject, FlutterPlugin {
       objcRootTemplate.updateTemplates(newTemplates: newTemplates);   
       result(true)
       break
+    case FCPChannelTypes.isSharedNowPlayingVisible:
+        for template in FlutterCarPlaySceneDelegate.getTemplates() {
+            if template is CPNowPlayingTemplate {
+                result(true)
+                break
+            }
+        }
+        result(false)
+        break
     default:
       result(false)
       break
@@ -261,7 +314,13 @@ public class SwiftFlutterCarplayPlugin: NSObject, FlutterPlugin {
   }
   
   static func findItem(elementId: String, actionWhenFound: (_ item: FCPListItem) -> Void) {
-    let objcRootTemplateType = String(describing: SwiftFlutterCarplayPlugin.objcRootTemplate).match(#"(.*flutter_carplay\.(.*)\))"#)[0][2]
+    var objcRootTemplateType = ""
+    let matches = String(describing: SwiftFlutterCarplayPlugin.objcRootTemplate).match(#"(.*flutter_carplay\.(.*)\))"#)
+    if matches.count > 0 && matches[0].count > 2 {
+        objcRootTemplateType = matches[0][2]
+    } else {
+        return
+    }
     var templates: [FCPListTemplate] = []
     if (objcRootTemplateType.elementsEqual(String(describing: FCPListTemplate.self))) {
       templates.append(SwiftFlutterCarplayPlugin.objcRootTemplate as! FCPListTemplate)

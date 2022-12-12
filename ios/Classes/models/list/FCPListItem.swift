@@ -52,7 +52,7 @@ class FCPListItem {
       UIGraphicsEndImageContext()
       listItem.setImage(emptyImage)
       DispatchQueue.global(qos: .background).async {
-        let uiImage = UIImage().fromCorrectSource(name: self.image!)
+        let uiImage = (self.image != nil && !self.image!.isEmpty) ? UIImage().fromCorrectSource(name: self.image!) : nil
         DispatchQueue.main.async {
             listItem.setImage(uiImage)
         }
@@ -91,14 +91,12 @@ class FCPListItem {
       self._super?.setDetailText(detailText)
       self.detailText = detailText
     }
-    if image != nil {
-      DispatchQueue.global(qos: .background).async {
-        let uiImage = UIImage().fromCorrectSource(name: image!)
-        DispatchQueue.main.async {
+    // Updated to include nil value
+    DispatchQueue.global(qos: .background).async {
+      let uiImage = (image != nil && !image!.isEmpty) ? UIImage().fromCorrectSource(name: image!) : nil
+      DispatchQueue.main.async {
           self._super?.setImage(uiImage)
-        }
       }
-      
       self.image = image
     }
     if playbackProgress != nil {

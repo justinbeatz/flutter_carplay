@@ -1,12 +1,15 @@
-import 'package:flutter_carplay/flutter_carplay.dart';
 import 'package:flutter_carplay/helpers/carplay_helper.dart';
+import 'package:flutter_carplay/models/list/list_item.dart';
+import 'package:flutter_carplay/models/list/list_section.dart';
+import 'package:flutter_carplay/models/list/list_template.dart';
+import 'package:flutter_carplay/models/tabbar/tabbar_template.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('FlutterCarplayHelper', () {
     late FlutterCarplayHelper flutterCarplayHelper;
 
-    final cpListItem=CPListItem(text: '<CPListItem>');
+    final cpListItem = CPListItem(text: '<CPListItem>');
 
     final cpListTemplate = CPListTemplate(
         title: '<CPListTemplate>',
@@ -16,7 +19,8 @@ void main() {
         systemIcon: '<CarIcon>');
 
     final templates = [
-      CPTabBarTemplate(title: '<CPTabBarTemplate>', templates: [cpListTemplate]),
+      CPTabBarTemplate(
+          title: '<CPTabBarTemplate>', templates: [cpListTemplate]),
       cpListTemplate
     ];
 
@@ -25,7 +29,8 @@ void main() {
     });
 
     test('find CPListItem from dynamic list item and element id', () {
-      CPListItem? item = flutterCarplayHelper.findCPListItem(templates: templates, elementId: cpListItem.uniqueId);
+      CPListItem? item = flutterCarplayHelper.findCPListItem(
+          templates: templates, elementId: cpListItem.uniqueId);
 
       expect(item, cpListItem);
 

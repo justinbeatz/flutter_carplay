@@ -27,6 +27,10 @@ class FlutterCarPlaySceneDelegate: UIResponder, CPTemplateApplicationSceneDelega
   func sceneDidEnterBackground(_ scene: UIScene) {
     SwiftFlutterCarplayPlugin.onCarplayConnectionChange(status: FCPConnectionTypes.background)
   }
+    
+  static public func getTemplates() -> [CPTemplate] {
+      return FlutterCarPlaySceneDelegate.interfaceController?.templates ?? []
+  }
   
   static public func pop(animated: Bool) {
     self.interfaceController?.popTemplate(animated: animated)
