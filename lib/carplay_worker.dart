@@ -1,14 +1,10 @@
 import 'dart:async';
-import 'package:flutter_carplay/constants/constants.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_carplay/controllers/carplay_controller.dart';
 import 'package:flutter_carplay/flutter_carplay.dart';
-import 'package:flutter_carplay/helpers/enum_utils.dart';
-import 'package:flutter_carplay/models/alert/alert_template.dart';
-import 'package:flutter_carplay/models/grid/grid_template.dart';
-import 'package:flutter_carplay/models/information/information_template.dart';
-import 'package:flutter_carplay/models/poi/poi_template.dart';
-import 'package:flutter_carplay/models/tabbar/tabbar_template.dart';
 import 'package:flutter_carplay/constants/private_constants.dart';
+
+import 'models/button/now_playing_image_button.dart';
 
 /// An object in order to integrate Apple CarPlay in navigation and
 /// manage all user interface elements appearing on your screens displayed on
@@ -84,6 +80,9 @@ class FlutterCarplay {
         case FCPChannelTypes.onTextButtonPressed:
           _carPlayController
               .processFCPTextButtonPressed(event["data"]["elementId"]);
+          break;
+        case FCPChannelTypes.onNowPlayingUpNextPressed:
+          _carPlayController.processNowPlayingUpNextPressed();
           break;
         default:
           break;
@@ -164,6 +163,11 @@ class FlutterCarplay {
         }
       });
     }
+  }
+
+  static Future<bool> isSharedNowPlayingVisible() async {
+    return await _carPlayController.methodChannel
+        .invokeMethod('isSharedNowPlayingVisible');
   }
 
   /// It will set the current root template again.
@@ -272,8 +276,7 @@ class FlutterCarplay {
     if (template.runtimeType == CPGridTemplate ||
         template.runtimeType == CPListTemplate ||
         template.runtimeType == CPInformationTemplate ||
-        template.runtimeType == CPPointOfInterestTemplate
-    ) {
+        template.runtimeType == CPPointOfInterestTemplate) {
       bool isCompleted = await _carPlayController
           .reactToNativeModule(FCPChannelTypes.pushTemplate, <String, dynamic>{
         "template": template.toJson(),
@@ -287,5 +290,65 @@ class FlutterCarplay {
     } else {
       throw TypeError();
     }
+  }
+
+  /// Navigate to the shared instance of the NowPlaying Template
+  ///
+  /// - If animated is true, CarPlay animates the transition between templates.
+  static Future<bool> showSharedNowPlaying({bool animated = true}) async {
+    bool isCompleted = await _carPlayController.reactToNativeModule(
+      FCPChannelTypes.showNowPlaying,
+      animated,
+    );
+    return isCompleted;
+  }
+
+  static Future<bool> updateNowPlayingButtons({
+    required List<CPNowPlayingImageButton> buttons,
+  }) async {
+    bool isCompleted = await _carPlayController.reactToNativeModule(
+      FCPChannelTypes.updateNowPlayingButtons,
+      <String, dynamic>{
+        'buttons': buttons.map((e) => e.toJson()).toList(),
+      },
+    );
+    return isCompleted;
+  }
+
+  static Future<bool> updateNowPlayingUpNext({
+    String? title,
+    bool isEnabled = false,
+    VoidCallback? onPressed,
+  }) async {
+    bool isCompleted = await _carPlayController.reactToNativeModule(
+      FCPChannelTypes.updateNowPlayingUpNext,
+      <String, dynamic>{
+        'upNextTitle': title,
+        'upNextEnabled': isEnabled,
+      },
+    );
+    _carPlayController.setOnNowPlayingUpNextPressed(onPressed);
+
+    return isCompleted;
+  }
+
+  /// Updates the TabBar template it's children
+  ///
+  /// Only [CPListTemplate] items can be used to update the tabBar template it's children
+  /// because [CPTabBarTemplate] only accepts a list of [CPListTemplate]
+  static Future<bool> updateTabBarTemplates({
+    required List<CPListTemplate> newTemplates,
+  }) async {
+    bool isCompleted = await _carPlayController.reactToNativeModule(
+      FCPChannelTypes.updateTabBarTemplates,
+      <String, dynamic>{
+        "newTemplates": newTemplates.map((e) => e.toJson()).toList(),
+      },
+    );
+    if (isCompleted) {
+      (FlutterCarPlayController.currentRootTemplate as CPTabBarTemplate)
+          .updateTemplates(newTemplates: newTemplates);
+    }
+    return isCompleted;
   }
 }

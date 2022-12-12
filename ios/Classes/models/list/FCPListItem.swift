@@ -47,7 +47,16 @@ class FCPListItem {
       }
     }
     if image != nil {
-      listItem.setImage(UIImage().fromFlutterAsset(name: image!))
+      UIGraphicsBeginImageContext(CGSize.init(width: 100, height: 100))
+      let emptyImage = UIGraphicsGetImageFromCurrentImageContext()
+      UIGraphicsEndImageContext()
+      listItem.setImage(emptyImage)
+      DispatchQueue.global(qos: .background).async {
+        let uiImage = (self.image != nil && !self.image!.isEmpty) ? UIImage().fromCorrectSource(name: self.image!) : nil
+        DispatchQueue.main.async {
+            listItem.setImage(uiImage)
+        }
+      }
     }
     if playbackProgress != nil {
       listItem.playbackProgress = playbackProgress!
@@ -82,8 +91,12 @@ class FCPListItem {
       self._super?.setDetailText(detailText)
       self.detailText = detailText
     }
-    if image != nil {
-      self._super?.setImage(UIImage().fromFlutterAsset(name: image!))
+    // Updated to include nil value
+    DispatchQueue.global(qos: .background).async {
+      let uiImage = (image != nil && !image!.isEmpty) ? UIImage().fromCorrectSource(name: image!) : nil
+      DispatchQueue.main.async {
+          self._super?.setImage(uiImage)
+      }
       self.image = image
     }
     if playbackProgress != nil {

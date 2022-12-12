@@ -85,7 +85,7 @@ class CPListItem {
   /// Updating the image which will be displayed on the leading edge of the list item cell.
   /// Image asset path in pubspec.yaml file.
   /// For example: images/flutter_logo.png
-  set updateImage(String image) {
+  set updateImage(String? image) {
     this.image = image;
     FlutterCarPlayController.updateCPListItem(this);
   }
