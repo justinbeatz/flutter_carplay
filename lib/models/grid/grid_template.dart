@@ -1,8 +1,9 @@
+import 'package:flutter_carplay/models/cp_template.dart';
 import 'package:flutter_carplay/models/grid/grid_button.dart';
 import 'package:uuid/uuid.dart';
 
 /// A template object that displays and manages a grid of items.
-class CPGridTemplate {
+class CPGridTemplate implements CPNavigableTemplate {
   /// Unique id of the object.
   final String _elementId = const Uuid().v4();
 

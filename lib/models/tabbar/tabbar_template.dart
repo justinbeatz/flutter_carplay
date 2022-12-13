@@ -1,9 +1,10 @@
+import 'package:flutter_carplay/models/cp_template.dart';
 import 'package:flutter_carplay/models/list/list_template.dart';
 import 'package:uuid/uuid.dart';
 
 /// A template object that contains a collection of [CPListTemplate] templates,
 /// each of which occupies one tab in the tab bar.
-class CPTabBarTemplate {
+class CPTabBarTemplate implements CPNavigableTemplate {
   /// Unique id of the object.
   final String _elementId = const Uuid().v4();
 

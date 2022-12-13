@@ -1,8 +1,9 @@
+import 'package:flutter_carplay/models/cp_template.dart';
 import 'package:uuid/uuid.dart';
 import 'poi.dart';
 
 /// A template object that displays point of interest.
-class CPPointOfInterestTemplate {
+class CPPointOfInterestTemplate implements CPNavigableTemplate {
   /// Unique id of the object.
   final String _elementId = const Uuid().v4();
 
@@ -11,16 +12,13 @@ class CPPointOfInterestTemplate {
   final List<CPPointOfInterest> poi;
 
   /// Creates [CPPointOfInterestTemplate]
-  CPPointOfInterestTemplate({
-    required this.title,
-    required this.poi
-  });
+  CPPointOfInterestTemplate({required this.title, required this.poi});
 
   Map<String, dynamic> toJson() => {
-    "_elementId": _elementId,
-    "title": title,
-    "poi": poi.map((e) => e.toJson()).toList(),
-  };
+        "_elementId": _elementId,
+        "title": title,
+        "poi": poi.map((e) => e.toJson()).toList(),
+      };
 
   String get uniqueId {
     return _elementId;

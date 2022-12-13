@@ -1,8 +1,9 @@
 import 'package:flutter_carplay/models/alert/alert_action.dart';
+import 'package:flutter_carplay/models/cp_template.dart';
 import 'package:uuid/uuid.dart';
 
 /// A template object that displays a modal action sheet.
-class CPActionSheetTemplate {
+class CPActionSheetTemplate implements CPModalTemplate {
   /// Unique id of the object.
   final String _elementId = const Uuid().v4();
 
