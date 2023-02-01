@@ -24,7 +24,7 @@ class FlutterCarPlayController {
   static CPNavigableTemplate? currentRootTemplate;
 
   /// [CPAlertTemplate], [CPActionSheetTemplate]
-  static dynamic currentPresentTemplate;
+  static CPModalTemplate? currentPresentTemplate;
 
   VoidCallback? _onNowPlayingUpNextPressed;
 
@@ -38,13 +38,17 @@ class FlutterCarPlayController {
 
   Future<bool> reactToNativeModule(FCPChannelTypes type, dynamic data) async {
     final value = await _methodChannel.invokeMethod(
-        CPEnumUtils.stringFromEnum(type.toString()), data);
+      CPEnumUtils.stringFromEnum(type.toString()),
+      data,
+    );
     return value;
   }
 
   static void updateCPListItem(CPListItem updatedListItem) {
-    _methodChannel.invokeMethod('updateListItem',
-        <String, dynamic>{...updatedListItem.toJson()}).then((value) {
+    _methodChannel.invokeMethod(
+      'updateListItem',
+      <String, dynamic>{...updatedListItem.toJson()},
+    ).then((value) {
       if (value) {
         l1:
         for (var h in templateHistory) {
@@ -88,11 +92,7 @@ class FlutterCarPlayController {
   }
 
   void addTemplateToHistory(dynamic template) {
-    if (template.runtimeType == CPTabBarTemplate ||
-        template.runtimeType == CPGridTemplate ||
-        template.runtimeType == CPInformationTemplate ||
-        template.runtimeType == CPPointOfInterestTemplate ||
-        template.runtimeType == CPListTemplate) {
+    if (template is CPNavigableTemplate) {
       templateHistory.add(template);
     } else {
       throw TypeError();
@@ -126,14 +126,19 @@ class FlutterCarPlayController {
   }
 
   void processFCPAlertActionPressed(String elementId) {
-    CPAlertAction selectedAlertAction = currentPresentTemplate!.actions
-        .firstWhere((e) => e.uniqueId == elementId);
+    final template = currentPresentTemplate;
+    if (template is! CPAlertTemplate) return;
+    CPAlertAction selectedAlertAction = template.actions.firstWhere(
+      (e) => e.uniqueId == elementId,
+    );
     selectedAlertAction.onPress();
   }
 
   void processFCPAlertTemplateCompleted(bool completed) {
-    if (currentPresentTemplate?.onPresent != null) {
-      currentPresentTemplate!.onPresent!(completed);
+    final template = currentPresentTemplate;
+    if (template is! CPAlertTemplate) return;
+    if (template.onPresent != null) {
+      template.onPresent!(completed);
     }
   }
 

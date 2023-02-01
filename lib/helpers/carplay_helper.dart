@@ -1,19 +1,20 @@
 import 'package:flutter_carplay/flutter_carplay.dart';
+import 'package:flutter_carplay/models/cp_template.dart';
 
 class FlutterCarplayHelper {
   CPListItem? findCPListItem({
-    required List<dynamic> templates,
+    required List<CPTemplate> templates,
     required String elementId,
   }) {
     CPListItem? listItem;
     l1:
     for (var t in templates) {
       List<CPListTemplate> listTemplates = [];
-      if (t.runtimeType.toString() == (CPTabBarTemplate).toString()) {
+      if (t is CPTabBarTemplate) {
         for (var template in t.templates) {
           listTemplates.add(template);
         }
-      } else if (t.runtimeType.toString() == (CPListTemplate).toString()) {
+      } else if (t is CPListTemplate) {
         listTemplates.add(t);
       }
       if (listTemplates.isNotEmpty) {
