@@ -351,4 +351,11 @@ class FlutterCarplay {
     }
     return isCompleted;
   }
+
+  static Future<bool> isConnectionActive() async {
+    return await _carPlayController.reactToNativeModule(
+      FCPChannelTypes.isConnectionActive,
+      null,
+    );
+  }
 }
