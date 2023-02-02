@@ -36,6 +36,7 @@ enum FCPChannelTypes {
   static let popToRootTemplate = "popToRootTemplate"
   static let updateTabBarTemplates = "updateTabBarTemplates"
   static let isSharedNowPlayingVisible = "isSharedNowPlayingVisible"
+  static let isConnectionActive = "isConnectionActive"
 }
 
 enum FCPAlertActionTypes {

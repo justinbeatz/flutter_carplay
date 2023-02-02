@@ -21,4 +21,5 @@ enum FCPChannelTypes {
   onTextButtonPressed,
   popToRootTemplate,
   updateTabBarTemplates,
+  isConnectionActive,
 }
