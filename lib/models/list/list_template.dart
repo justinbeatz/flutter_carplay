@@ -1,3 +1,4 @@
+import 'package:flutter_carplay/controllers/carplay_controller.dart';
 import 'package:flutter_carplay/models/button/bar_button.dart';
 import 'package:flutter_carplay/models/cp_template.dart';
 import 'package:flutter_carplay/models/list/list_section.dart';
@@ -91,5 +92,6 @@ class CPListTemplate implements CPNavigableTemplate {
   void updateSections(List<CPListSection> updatedSections) {
     sections.clear();
     sections.addAll(updatedSections);
+    FlutterCarPlayController.updateCPListTemplateSections(this);
   }
 }
