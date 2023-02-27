@@ -106,6 +106,20 @@ public class SwiftFlutterCarplayPlugin: NSObject, FlutterPlugin {
             })
             result(true)
             break
+        case FCPChannelTypes.updateListTemplateSections:
+            guard let args = call.arguments as? [String : Any] else {
+                result(false)
+                return
+            }
+            let elementId = args["_elementId"] as! String
+            let sections = args["sections"] as! [[String : Any]]
+            var fcpSections : [FCPListSection] = []
+            for item in sections {
+                fcpSections.append(FCPListSection(obj: item))
+            }
+            SwiftFlutterCarplayPlugin.updateListTemplateSections(elementId: elementId, sections: fcpSections)
+            result(true)
+            break
         case FCPChannelTypes.onListItemSelectedComplete:
             guard let args = call.arguments as? String else {
                 result(false)
@@ -365,4 +379,12 @@ public class SwiftFlutterCarplayPlugin: NSObject, FlutterPlugin {
       }
     }
   }
+    
+    static func updateListTemplateSections(elementId: String, sections: [FCPListSection]) {
+        for t in templateStack {
+            if (t is FCPListTemplate && (t as! FCPListTemplate).elementId == elementId) {
+                (t as! FCPListTemplate).updateSections(sections: sections)
+            }
+        }
+    }
 }

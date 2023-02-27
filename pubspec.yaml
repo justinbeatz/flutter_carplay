@@ -6,7 +6,7 @@ repository: https://github.com/RedC4ke/flutter_carplay
 issue_tracker: https://github.com/RedC4ke/flutter_carplay/issues
 
 environment:
-  sdk: ">=2.18.0 <3.0.0"
+  sdk: ">=2.18.0 <4.0.0"
 
 dependencies:
   flutter:

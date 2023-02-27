@@ -87,4 +87,9 @@ class CPListTemplate implements CPNavigableTemplate {
   String get uniqueId {
     return _elementId;
   }
+
+  void updateSections(List<CPListSection> updatedSections) {
+    sections.clear();
+    sections.addAll(updatedSections);
+  }
 }

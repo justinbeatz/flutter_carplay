@@ -91,6 +91,33 @@ class FlutterCarPlayController {
     });
   }
 
+  static void updateCPListTemplateSections(CPListTemplate updatedListTemplate) {
+    _methodChannel.invokeMethod(
+      'updateListTemplateSections',
+      <String, dynamic>{...updatedListTemplate.toJson()},
+    ).then((value) {
+      if (value) {
+        l1:
+        for (var h in templateHistory) {
+          switch (h.runtimeType) {
+            case CPTabBarTemplate:
+              for (var t in (h as CPTabBarTemplate).templates) {
+                if (t.uniqueId == updatedListTemplate.uniqueId) {
+                  final template = currentRootTemplate as CPTabBarTemplate;
+                  template.templates[template.templates.indexOf(t)] =
+                      updatedListTemplate;
+                  currentRootTemplate = template;
+                  break l1;
+                }
+              }
+              break;
+            default:
+          }
+        }
+      }
+    });
+  }
+
   void addTemplateToHistory(dynamic template) {
     if (template is CPNavigableTemplate) {
       templateHistory.add(template);
