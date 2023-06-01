@@ -37,7 +37,7 @@ class FCPListItem {
     let listItem = CPListItem.init(text: text, detailText: detailText)
     listItem.handler = ((CPSelectableListItem, @escaping () -> Void) -> Void)? { selectedItem, complete in
       if self.isOnPressListenerActive == true {
-        DispatchQueue.main.async {
+        DispatchQueue.main.async { [self] in
           self.completeHandler = complete
           FCPStreamHandlerPlugin.sendEvent(type: FCPChannelTypes.onListItemSelected,
                                            data: ["elementId": self.elementId])
@@ -51,24 +51,24 @@ class FCPListItem {
       let emptyImage = UIGraphicsGetImageFromCurrentImageContext()
       UIGraphicsEndImageContext()
       listItem.setImage(emptyImage)
-      DispatchQueue.global(qos: .background).async {
-        let uiImage = (self.image != nil && !self.image!.isEmpty) ? UIImage().fromCorrectSource(name: self.image!) : nil
+      DispatchQueue.global(qos: .background).async { [self] in
+        let uiImage = (self.image != nil && !self.image!.isEmpty) ? UIImage().fromCorrectSource(name: self.image ?? "") : nil
         DispatchQueue.main.async {
             listItem.setImage(uiImage)
         }
       }
     }
     if playbackProgress != nil {
-      listItem.playbackProgress = playbackProgress!
+      listItem.playbackProgress = playbackProgress ?? 0
     }
     if isPlaying != nil {
-      listItem.isPlaying = isPlaying!
+      listItem.isPlaying = isPlaying ?? false
     }
     if playingIndicatorLocation != nil {
-      listItem.playingIndicatorLocation = playingIndicatorLocation!
+        listItem.playingIndicatorLocation = playingIndicatorLocation ?? CPListItemPlayingIndicatorLocation.trailing
     }
     if accessoryType != nil {
-      listItem.accessoryType = accessoryType!
+        listItem.accessoryType = accessoryType ?? CPListItemAccessoryType.none
     }
     self._super = listItem
     return listItem
@@ -78,45 +78,45 @@ class FCPListItem {
     guard self.completeHandler != nil else {
       return
     }
-    self.completeHandler!()
+    self.completeHandler?()
     self.completeHandler = nil
   }
   
   public func update(text: String?, detailText: String?, image: String?, playbackProgress: CGFloat?, isPlaying: Bool?, playingIndicatorLocation: String?, accessoryType: String?) {
     if text != nil {
-      self._super?.setText(text!)
-      self.text = text!
+      self._super?.setText(text ?? "")
+      self.text = text ?? ""
     }
     if detailText != nil {
       self._super?.setDetailText(detailText)
       self.detailText = detailText
     }
     // Updated to include nil value
-    DispatchQueue.global(qos: .background).async {
-      let uiImage = (image != nil && !image!.isEmpty) ? UIImage().fromCorrectSource(name: image!) : nil
+    DispatchQueue.global(qos: .background).async { [self] in
+      let uiImage = (image != nil && !image!.isEmpty) ? UIImage().fromCorrectSource(name: image ?? "") : nil
       DispatchQueue.main.async {
           self._super?.setImage(uiImage)
       }
       self.image = image
     }
     if playbackProgress != nil {
-      self._super?.playbackProgress = playbackProgress!
+        self._super?.playbackProgress = playbackProgress ?? 0
       self.playbackProgress = playbackProgress
     }
     if isPlaying != nil {
-      self._super?.isPlaying = isPlaying!
+      self._super?.isPlaying = isPlaying ?? false
       self.isPlaying = isPlaying
     }
     if playingIndicatorLocation != nil {
       self.setPlayingIndicatorLocation(fromString: playingIndicatorLocation)
       if self.playingIndicatorLocation != nil {
-        self._super?.playingIndicatorLocation = self.playingIndicatorLocation!
+          self._super?.playingIndicatorLocation = self.playingIndicatorLocation ?? CPListItemPlayingIndicatorLocation.trailing
       }
     }
     if accessoryType != nil {
       self.setAccessoryType(fromString: accessoryType)
       if self.accessoryType != nil {
-        self._super?.accessoryType = self.accessoryType!
+          self._super?.accessoryType = self.accessoryType ?? CPListItemAccessoryType.none
       }
     }
   }

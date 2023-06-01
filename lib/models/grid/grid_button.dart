@@ -12,11 +12,7 @@ class CPGridButton {
   /// one title in the array.**
   final List<String> titleVariants;
 
-  /// Image asset path in pubspec.yaml file.
-  /// For example: images/flutter_logo.png
-  ///
-  /// **[!] When creating a grid button, do NOT provide an animated image. If you do, the button
-  /// uses the first image in the animation sequence.**
+  /// Image file path, URL or XCode asset path
   final String image;
 
   /// Fired after the user taps the button.

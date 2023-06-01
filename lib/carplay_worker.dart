@@ -245,7 +245,7 @@ class FlutterCarplay {
   /// If animated is true, CarPlay animates the presentation of the template.
   static Future<bool> popToRoot({bool animated = true}) async {
     FlutterCarPlayController.templateHistory = [
-      FlutterCarPlayController.currentRootTemplate
+      FlutterCarPlayController.currentRootTemplate!
     ];
     return await _carPlayController.reactToNativeModule(
       FCPChannelTypes.popToRootTemplate,
@@ -350,5 +350,12 @@ class FlutterCarplay {
           .updateTemplates(newTemplates: newTemplates);
     }
     return isCompleted;
+  }
+
+  static Future<bool> isConnectionActive() async {
+    return await _carPlayController.reactToNativeModule(
+      FCPChannelTypes.isConnectionActive,
+      null,
+    );
   }
 }

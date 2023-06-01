@@ -22,6 +22,7 @@ class FlutterCarPlaySceneDelegate: UIResponder, CPTemplateApplicationSceneDelega
   func sceneDidBecomeActive(_ scene: UIScene) {
     SwiftFlutterCarplayPlugin.onCarplayConnectionChange(status: FCPConnectionTypes.connected)
   }
+    
   
   // Fired when carplay entered background
   func sceneDidEnterBackground(_ scene: UIScene) {

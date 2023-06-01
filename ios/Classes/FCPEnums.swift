@@ -16,6 +16,7 @@ enum FCPChannelTypes {
   static let setRootTemplate = "setRootTemplate"
   static let forceUpdateRootTemplate = "forceUpdateRootTemplate"
   static let updateListItem = "updateListItem"
+  static let updateListTemplateSections = "updateListTemplateSections"
   static let onListItemSelected = "onFCPListItemSelected"
   static let onListItemSelectedComplete = "onFCPListItemSelectedComplete"
   static let onAlertActionPressed = "onFCPAlertActionPressed"
@@ -36,6 +37,7 @@ enum FCPChannelTypes {
   static let popToRootTemplate = "popToRootTemplate"
   static let updateTabBarTemplates = "updateTabBarTemplates"
   static let isSharedNowPlayingVisible = "isSharedNowPlayingVisible"
+  static let isConnectionActive = "isConnectionActive"
 }
 
 enum FCPAlertActionTypes {

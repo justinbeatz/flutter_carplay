@@ -1,9 +1,11 @@
+import 'package:flutter_carplay/controllers/carplay_controller.dart';
 import 'package:flutter_carplay/models/button/bar_button.dart';
+import 'package:flutter_carplay/models/cp_template.dart';
 import 'package:flutter_carplay/models/list/list_section.dart';
 import 'package:uuid/uuid.dart';
 
 /// A template object that displays and manages a list of items.
-class CPListTemplate {
+class CPListTemplate implements CPNavigableTemplate {
   /// Unique id of the object.
   final String _elementId = const Uuid().v4();
 
@@ -85,5 +87,11 @@ class CPListTemplate {
 
   String get uniqueId {
     return _elementId;
+  }
+
+  void updateSections(List<CPListSection> updatedSections) {
+    sections.clear();
+    sections.addAll(updatedSections);
+    FlutterCarPlayController.updateCPListTemplateSections(this);
   }
 }
