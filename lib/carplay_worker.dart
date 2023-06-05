@@ -80,6 +80,10 @@ class FlutterCarplay {
           _carPlayController
               .processFCPTextButtonPressed(event["data"]["elementId"]);
           break;
+        case FCPChannelTypes.onNowPlayingButtonPressed:
+          _carPlayController
+              .processFCPNowPlayingButtonPressed(event["data"]["elementId"]);
+          break;
         case FCPChannelTypes.onNowPlayingUpNextPressed:
           _carPlayController.processNowPlayingUpNextPressed();
           break;

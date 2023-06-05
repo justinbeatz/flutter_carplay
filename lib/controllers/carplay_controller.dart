@@ -2,6 +2,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_carplay/flutter_carplay.dart';
 import 'package:flutter_carplay/helpers/carplay_helper.dart';
 import 'package:flutter_carplay/constants/private_constants.dart';
+import 'package:flutter_carplay/models/button/now_playing_button.dart';
 import 'package:flutter_carplay/models/cp_template.dart';
 
 /// [FlutterCarPlayController] is an root object in order to control and communication
@@ -226,4 +227,6 @@ class FlutterCarPlayController {
       }
     }
   }
+
+  void processFCPNowPlayingButtonPressed(String elementId) {}
 }

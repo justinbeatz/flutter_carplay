@@ -11,7 +11,7 @@ class CPNowPlayingButton {
   final String? image;
 
   /// Fired when the user taps the button.
-  final Function(Function() complete, CPNowPlayingButton self)? onPress;
+  final Function(CPNowPlayingButton self)? onPress;
 
   CPNowPlayingButton({
     required this.type,
