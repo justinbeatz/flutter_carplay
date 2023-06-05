@@ -21,6 +21,9 @@ class FlutterCarPlayController {
   /// [CPTabBarTemplate], [CPGridTemplate], [CPListTemplate], [CPIInformationTemplate], [CPPointOfInterestTemplate] in a List
   static List<CPNavigableTemplate> templateHistory = [];
 
+  /// [CPNowPlayingButton] in a List
+  static List<CPNowPlayingButton> nowPlayingButtons = [];
+
   /// [CPTabBarTemplate], [CPGsridTemplate], [CPListTemplate], [CPIInformationTemplate], [CPPointOfInterestTemplate]
   static CPNavigableTemplate? currentRootTemplate;
 
@@ -228,5 +231,12 @@ class FlutterCarPlayController {
     }
   }
 
-  void processFCPNowPlayingButtonPressed(String elementId) {}
+  void processFCPNowPlayingButtonPressed(String elementId) {
+    for (var b in nowPlayingButtons) {
+      if (b.uniqueId == elementId) {
+        b.onPress?.call(b);
+        break;
+      }
+    }
+  }
 }

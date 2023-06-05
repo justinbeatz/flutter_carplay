@@ -309,6 +309,7 @@ class FlutterCarplay {
   static Future<bool> updateNowPlayingButtons({
     required List<CPNowPlayingButton> buttons,
   }) async {
+    FlutterCarPlayController.nowPlayingButtons = buttons;
     bool isCompleted = await _carPlayController.reactToNativeModule(
       FCPChannelTypes.updateNowPlayingButtons,
       <String, dynamic>{
