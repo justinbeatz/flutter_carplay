@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_carplay/controllers/carplay_controller.dart';
 import 'package:flutter_carplay/flutter_carplay.dart';
 import 'package:flutter_carplay/constants/private_constants.dart';
-
-import 'models/button/now_playing_image_button.dart';
+import 'package:flutter_carplay/models/button/now_playing_button.dart';
 
 /// An object in order to integrate Apple CarPlay in navigation and
 /// manage all user interface elements appearing on your screens displayed on
@@ -304,7 +303,7 @@ class FlutterCarplay {
   }
 
   static Future<bool> updateNowPlayingButtons({
-    required List<CPNowPlayingImageButton> buttons,
+    required List<CPNowPlayingButton> buttons,
   }) async {
     bool isCompleted = await _carPlayController.reactToNativeModule(
       FCPChannelTypes.updateNowPlayingButtons,
