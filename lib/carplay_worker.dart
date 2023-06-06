@@ -284,7 +284,7 @@ class FlutterCarplay {
           .reactToNativeModule(FCPChannelTypes.pushTemplate, <String, dynamic>{
         "template": template.toJson(),
         "animated": animated,
-        "runtimeType": "F" + template.runtimeType.toString(),
+        "type": "F" + template.type.toString(),
       });
       if (isCompleted) {
         _carPlayController.addTemplateToHistory(template);

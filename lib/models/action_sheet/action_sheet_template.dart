@@ -4,6 +4,9 @@ import 'package:uuid/uuid.dart';
 
 /// A template object that displays a modal action sheet.
 class CPActionSheetTemplate implements CPModalTemplate {
+  @override
+  final String type = (CPActionSheetTemplate).toString();
+
   /// Unique id of the object.
   final String _elementId = const Uuid().v4();
 

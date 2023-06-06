@@ -249,7 +249,7 @@ public class SwiftFlutterCarplayPlugin: NSObject, FlutterPlugin {
             }
             var pushTemplate: CPTemplate?
             let animated = args["animated"] as! Bool
-            switch args["runtimeType"] as! String {
+            switch args["type"] as! String {
             case String(describing: FCPGridTemplate.self):
                 let template = FCPGridTemplate(obj: args["template"] as! [String : Any])
                 SwiftFlutterCarplayPlugin.templateStack.append(template)

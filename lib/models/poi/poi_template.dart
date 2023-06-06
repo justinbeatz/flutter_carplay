@@ -4,6 +4,9 @@ import 'poi.dart';
 
 /// A template object that displays point of interest.
 class CPPointOfInterestTemplate implements CPNavigableTemplate {
+  @override
+  final String type = (CPPointOfInterestTemplate).toString();
+
   /// Unique id of the object.
   final String _elementId = const Uuid().v4();
 

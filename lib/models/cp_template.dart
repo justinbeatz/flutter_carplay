@@ -1,4 +1,6 @@
-abstract class CPTemplate {}
+abstract class CPTemplate {
+  abstract final String type;
+}
 
 abstract class CPNavigableTemplate implements CPTemplate {}
 

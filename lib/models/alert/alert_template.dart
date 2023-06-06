@@ -4,6 +4,9 @@ import 'package:uuid/uuid.dart';
 
 /// A template object that displays a modal alert.
 class CPAlertTemplate implements CPModalTemplate {
+  @override
+  final String type = (CPAlertTemplate).toString();
+
   /// Unique id of the object.
   final String _elementId = const Uuid().v4();
 

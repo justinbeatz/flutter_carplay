@@ -8,6 +8,9 @@ import 'package:uuid/uuid.dart';
 
 /// A template object that displays and manages information items and text buttons.
 class CPInformationTemplate implements CPNavigableTemplate {
+  @override
+  final String type = (CPInformationTemplate).toString();
+
   /// Unique id of the object.
   final String _elementId = const Uuid().v4();
 

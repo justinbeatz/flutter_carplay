@@ -6,6 +6,9 @@ import 'package:uuid/uuid.dart';
 
 /// A template object that displays and manages a list of items.
 class CPListTemplate implements CPNavigableTemplate {
+  @override
+  final String type = (CPListTemplate).toString();
+
   /// Unique id of the object.
   final String _elementId = const Uuid().v4();
 

@@ -4,6 +4,9 @@ import 'package:uuid/uuid.dart';
 
 /// A template object that displays and manages a grid of items.
 class CPGridTemplate implements CPNavigableTemplate {
+  @override
+  final String type = (CPGridTemplate).toString();
+
   /// Unique id of the object.
   final String _elementId = const Uuid().v4();
 

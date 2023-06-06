@@ -5,6 +5,9 @@ import 'package:uuid/uuid.dart';
 /// A template object that contains a collection of [CPListTemplate] templates,
 /// each of which occupies one tab in the tab bar.
 class CPTabBarTemplate implements CPNavigableTemplate {
+  @override
+  final String type = (CPTabBarTemplate).toString();
+
   /// Unique id of the object.
   final String _elementId = const Uuid().v4();
 
