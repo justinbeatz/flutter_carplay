@@ -276,10 +276,10 @@ class FlutterCarplay {
     required dynamic template,
     bool animated = true,
   }) async {
-    if (template.runtimeType == CPGridTemplate ||
-        template.runtimeType == CPListTemplate ||
-        template.runtimeType == CPInformationTemplate ||
-        template.runtimeType == CPPointOfInterestTemplate) {
+    if (template is CPGridTemplate ||
+        template is CPListTemplate ||
+        template is CPInformationTemplate ||
+        template is CPPointOfInterestTemplate) {
       bool isCompleted = await _carPlayController
           .reactToNativeModule(FCPChannelTypes.pushTemplate, <String, dynamic>{
         "template": template.toJson(),
