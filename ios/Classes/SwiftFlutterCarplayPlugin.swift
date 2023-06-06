@@ -211,10 +211,10 @@ public class SwiftFlutterCarplayPlugin: NSObject, FlutterPlugin {
                 result(false)
                 return
             }
-            var buttons: [CPNowPlayingImageButton] = []
+            var buttons: [CPNowPlayingButton] = []
             let newButtons = args["buttons"] as! Array<[String : Any]>
             for button in newButtons {
-                buttons.append(FCPNowPlayingImageButton(obj: button).get)
+                buttons.append(FCPNowPlayingButton(obj: button).get)
             }
             
             CPNowPlayingTemplate.shared.updateNowPlayingButtons(buttons)

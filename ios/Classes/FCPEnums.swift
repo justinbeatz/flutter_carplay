@@ -49,3 +49,12 @@ enum FCPListTemplateTypes {
   case PART_OF_GRID_TEMPLATE
   case DEFAULT
 }
+
+enum FCPNowPlayingButtonType : String {
+    case image
+    case shuffle
+    case addToLibrary
+    case more
+    case playbackRate
+    case repeatTrack
+}

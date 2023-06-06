@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_carplay/controllers/carplay_controller.dart';
 import 'package:flutter_carplay/flutter_carplay.dart';
 import 'package:flutter_carplay/constants/private_constants.dart';
-
-import 'models/button/now_playing_image_button.dart';
+import 'package:flutter_carplay/models/button/now_playing_button.dart';
 
 /// An object in order to integrate Apple CarPlay in navigation and
 /// manage all user interface elements appearing on your screens displayed on
@@ -80,6 +79,10 @@ class FlutterCarplay {
         case FCPChannelTypes.onTextButtonPressed:
           _carPlayController
               .processFCPTextButtonPressed(event["data"]["elementId"]);
+          break;
+        case FCPChannelTypes.onNowPlayingButtonPressed:
+          _carPlayController
+              .processFCPNowPlayingButtonPressed(event["data"]["elementId"]);
           break;
         case FCPChannelTypes.onNowPlayingUpNextPressed:
           _carPlayController.processNowPlayingUpNextPressed();
@@ -273,10 +276,10 @@ class FlutterCarplay {
     required dynamic template,
     bool animated = true,
   }) async {
-    if (template.runtimeType == CPGridTemplate ||
-        template.runtimeType == CPListTemplate ||
-        template.runtimeType == CPInformationTemplate ||
-        template.runtimeType == CPPointOfInterestTemplate) {
+    if (template is CPGridTemplate ||
+        template is CPListTemplate ||
+        template is CPInformationTemplate ||
+        template is CPPointOfInterestTemplate) {
       bool isCompleted = await _carPlayController
           .reactToNativeModule(FCPChannelTypes.pushTemplate, <String, dynamic>{
         "template": template.toJson(),
@@ -304,8 +307,9 @@ class FlutterCarplay {
   }
 
   static Future<bool> updateNowPlayingButtons({
-    required List<CPNowPlayingImageButton> buttons,
+    required List<CPNowPlayingButton> buttons,
   }) async {
+    FlutterCarPlayController.nowPlayingButtons = buttons;
     bool isCompleted = await _carPlayController.reactToNativeModule(
       FCPChannelTypes.updateNowPlayingButtons,
       <String, dynamic>{
