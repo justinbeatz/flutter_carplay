@@ -51,7 +51,9 @@ class FlutterCarPlayController {
   static void updateCPListItem(CPListItem updatedListItem) {
     _methodChannel.invokeMethod(
       'updateListItem',
-      <String, dynamic>{...updatedListItem.toJson()},
+      <String, dynamic>{
+        ...updatedListItem.toJson(),
+      },
     ).then((value) {
       if (value) {
         l1:
@@ -93,6 +95,17 @@ class FlutterCarPlayController {
         }
       }
     });
+  }
+
+  static void updateCPNowPlayingButton(CPNowPlayingButton updatedButton) {
+    for (var b in nowPlayingButtons) {
+      if (b.uniqueId == updatedButton.uniqueId) {
+        nowPlayingButtons[nowPlayingButtons.indexOf(b)] = updatedButton;
+        break;
+      }
+    }
+
+    FlutterCarplay.updateNowPlayingButtons(buttons: nowPlayingButtons);
   }
 
   static void updateCPListTemplateSections(CPListTemplate updatedListTemplate) {
