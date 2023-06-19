@@ -35,8 +35,13 @@ class FCPNowPlayingButton {
       case .more: button = CPNowPlayingMoreButton(handler: handler)
       case .playbackRate: button = CPNowPlayingPlaybackRateButton(handler: handler)
       case .image:
-          let uiImage = UIImage().fromCorrectSource(name: self.image!)
-          button = CPNowPlayingImageButton(image: uiImage, handler: handler)
+          let uiImage = UIImage(systemName: image ?? "square")
+          if (image != nil) {
+              button = CPNowPlayingImageButton(image: uiImage!, handler: handler)
+          } else {
+              button = CPNowPlayingImageButton(handler: handler)
+          }
+          
       }
       
       self._super = button

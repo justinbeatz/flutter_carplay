@@ -1,4 +1,3 @@
-import 'package:flutter_carplay/carplay_worker.dart';
 import 'package:flutter_carplay/controllers/carplay_controller.dart';
 import 'package:uuid/uuid.dart';
 
@@ -8,9 +7,8 @@ class CPNowPlayingButton {
 
   final CPNowPlayingButtonType type;
 
-  /// Displayed inside the button with a big padding
-  /// I recommend using square png icons
-  String? image;
+  /// SF Symbol
+  String? icon;
 
   /// Fired when the user taps the button.
   final Function(CPNowPlayingButton self)? onPress;
@@ -18,14 +16,14 @@ class CPNowPlayingButton {
   CPNowPlayingButton({
     required this.type,
     required this.onPress,
-    this.image,
+    this.icon,
   });
 
   Map<String, dynamic> toJson() {
     return {
       '_elementId': _elementId,
       'type': type.name,
-      if (image != null) 'image': image,
+      if (icon != null) 'image': icon,
     };
   }
 
@@ -33,8 +31,8 @@ class CPNowPlayingButton {
     return _elementId;
   }
 
-  void updateImage(String image) {
-    this.image = image;
+  void updateIcon(String icon) {
+    this.icon = icon;
     FlutterCarPlayController.updateCPNowPlayingButton(this);
   }
 }
