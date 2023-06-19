@@ -36,6 +36,7 @@ class FCPNowPlayingButton {
       case .playbackRate: button = CPNowPlayingPlaybackRateButton(handler: handler)
       case .image:
           let uiImage = UIImage(systemName: image ?? "square")
+          uiImage?.resizeImageTo(size: CPNowPlayingButtonMaximumImageSize)
           if (image != nil) {
               button = CPNowPlayingImageButton(image: uiImage!, handler: handler)
           } else {
