@@ -75,7 +75,7 @@ class FCPListItem {
     if accessoryIcon != nil {
         DispatchQueue.global(qos: .background).async { [self] in
             let uiImage = (self.accessoryIcon != nil && !self.accessoryIcon!.isEmpty) ? UIImage(systemName: self.accessoryIcon!) : nil
-            let resizedImage = uiImage?.resizeImageTo(size: CPListItem.maximumImageSize)
+            let resizedImage = uiImage?.resizeImageTo(size: CGSize.init(width: CPListItem.maximumImageSize.width / 3, height: CPListItem.maximumImageSize.height / 3) )
             DispatchQueue.main.async {
                 listItem.setAccessoryImage(resizedImage)
             }
