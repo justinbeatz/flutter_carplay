@@ -51,6 +51,7 @@ class CPListItem {
     this.isPlaying,
     this.playingIndicatorLocation,
     this.accessoryType,
+    this.accessoryIcon,
   });
 
   Map<String, dynamic> toJson() => {
