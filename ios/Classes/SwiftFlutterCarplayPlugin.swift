@@ -101,8 +101,9 @@ public class SwiftFlutterCarplayPlugin: NSObject, FlutterPlugin {
             let isPlaying = args["isPlaying"] as? Bool
             let playingIndicatorLocation = args["playingIndicatorLocation"] as? String
             let accessoryType = args["accessoryType"] as? String
+            let accessoryIcon = args["accessoryIcon"] as? String
             SwiftFlutterCarplayPlugin.findItem(elementId: elementId, actionWhenFound: { item in
-                item.update(text: text, detailText: detailText, image: image, playbackProgress: playbackProgress, isPlaying: isPlaying, playingIndicatorLocation: playingIndicatorLocation, accessoryType: accessoryType)
+                item.update(text: text, detailText: detailText, image: image, playbackProgress: playbackProgress, isPlaying: isPlaying, playingIndicatorLocation: playingIndicatorLocation, accessoryType: accessoryType, accessoryIcon: accessoryIcon)
             })
             result(true)
             break

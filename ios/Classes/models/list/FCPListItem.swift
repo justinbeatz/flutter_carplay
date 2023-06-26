@@ -20,6 +20,7 @@ class FCPListItem {
   private var isPlaying: Bool?
   private var playingIndicatorLocation: CPListItemPlayingIndicatorLocation?
   private var accessoryType: CPListItemAccessoryType?
+  private var accessoryIcon: String?
   
   init(obj: [String : Any]) {
     self.elementId = obj["_elementId"] as! String
@@ -31,6 +32,7 @@ class FCPListItem {
     self.isPlaying = obj["isPlaying"] as? Bool
     self.setPlayingIndicatorLocation(fromString: obj["playingIndicatorLocation"] as? String)
     self.setAccessoryType(fromString: obj["accessoryType"] as? String)
+    self.accessoryIcon = obj["accessoryIcon"] as? String
   }
   
   var get: CPListItem {
@@ -70,6 +72,15 @@ class FCPListItem {
     if accessoryType != nil {
         listItem.accessoryType = accessoryType ?? CPListItemAccessoryType.none
     }
+    if accessoryIcon != nil {
+        DispatchQueue.global(qos: .background).async { [self] in
+            let uiImage = (self.accessoryIcon != nil && !self.accessoryIcon!.isEmpty) ? UIImage(systemName: self.accessoryIcon!) : nil
+            let resizedImage = uiImage?.resizeImageTo(size: CPListItem.maximumImageSize)
+            DispatchQueue.main.async {
+                listItem.setAccessoryImage(resizedImage)
+            }
+        }
+    }
     self._super = listItem
     return listItem
   }
@@ -82,7 +93,7 @@ class FCPListItem {
     self.completeHandler = nil
   }
   
-  public func update(text: String?, detailText: String?, image: String?, playbackProgress: CGFloat?, isPlaying: Bool?, playingIndicatorLocation: String?, accessoryType: String?) {
+    public func update(text: String?, detailText: String?, image: String?, playbackProgress: CGFloat?, isPlaying: Bool?, playingIndicatorLocation: String?, accessoryType: String?, accessoryIcon: String?) {
     if text != nil {
       self._super?.setText(text ?? "")
       self.text = text ?? ""
@@ -118,6 +129,15 @@ class FCPListItem {
       if self.accessoryType != nil {
           self._super?.accessoryType = self.accessoryType ?? CPListItemAccessoryType.none
       }
+    }
+    if accessoryIcon != nil {
+        DispatchQueue.global(qos: .background).async { [self] in
+            let uiImage = (self.accessoryIcon != nil && !self.accessoryIcon!.isEmpty) ? UIImage(systemName: self.accessoryIcon!) : nil
+            let resizedImage = uiImage?.resizeImageTo(size: CPListItem.maximumImageSize)
+            DispatchQueue.main.async {
+                self._super?.setAccessoryImage(resizedImage)
+            }
+        }
     }
   }
   
