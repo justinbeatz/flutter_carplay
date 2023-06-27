@@ -34,6 +34,9 @@ class CPListItem {
   /// An accessory that the list item displays in its trailing region.
   CPListItemAccessoryTypes? accessoryType;
 
+  /// Creates an accessory image (from system icon name)
+  String? accessoryIcon;
+
   /// Creates [CPListItem] that manages the content of a single row in a [CPListTemplate].
   /// CarPlay manages the layout of a list item and may adjust its layout to allow for
   /// the display of auxiliary content, such as, an accessory or a Now Playing indicator.
@@ -48,6 +51,7 @@ class CPListItem {
     this.isPlaying,
     this.playingIndicatorLocation,
     this.accessoryType,
+    this.accessoryIcon,
   });
 
   Map<String, dynamic> toJson() => {
@@ -61,6 +65,7 @@ class CPListItem {
         "playingIndicatorLocation":
             CPEnumUtils.stringFromEnum(playingIndicatorLocation.toString()),
         "accessoryType": CPEnumUtils.stringFromEnum(accessoryType.toString()),
+        "accessoryIcon": accessoryIcon,
       };
 
   /// Updating the list item's primary text.
@@ -117,6 +122,12 @@ class CPListItem {
   /// Setter for accessoryType
   void setAccessoryType(CPListItemAccessoryTypes accessoryType) {
     this.accessoryType = accessoryType;
+    FlutterCarPlayController.updateCPListItem(this);
+  }
+
+  /// Setter for accessoryIcon
+  void setAccessoryIcon(String accessoryIcon) {
+    this.accessoryIcon = accessoryIcon;
     FlutterCarPlayController.updateCPListItem(this);
   }
 

@@ -22,12 +22,12 @@ class FCPNowPlayingButton {
   
   var get: CPNowPlayingButton {
       var button : CPNowPlayingButton
-      let handler : ((CPNowPlayingButton) -> Void) = { _ in
+      let handler : ((CPNowPlayingButton) -> Void) = { [weak self] _ in
           DispatchQueue.main.async {
+              guard let self = self else { return } // Unwrap the weak reference
               FCPStreamHandlerPlugin.sendEvent(type: FCPChannelTypes.onNowPlayingButtonPressed, data: ["elementId": self.elementId])
           }
       }
-      
       switch type {
       case .shuffle: button = CPNowPlayingShuffleButton(handler: handler)
       case .repeatTrack: button = CPNowPlayingRepeatButton(handler: handler)
