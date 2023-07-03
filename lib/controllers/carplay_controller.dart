@@ -110,7 +110,9 @@ class FlutterCarPlayController {
 
   static Future<int?> getListTemplateMaximumItemCount() {
     return _methodChannel.invokeMethod<int>(
-      FCPChannelTypes.getListTemplateMaximumItemCount.toString(),
+      CPEnumUtils.stringFromEnum(
+        FCPChannelTypes.getListTemplateMaximumItemCount.toString(),
+      ),
     );
   }
 
