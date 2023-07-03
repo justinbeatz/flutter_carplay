@@ -107,6 +107,10 @@ public class SwiftFlutterCarplayPlugin: NSObject, FlutterPlugin {
             })
             result(true)
             break
+        case FCPChannelTypes.getListTemplateMaximumItemCount:
+            let maxItemCount = CPListTemplate.maximumItemCount
+            result(maxItemCount)
+            break
         case FCPChannelTypes.updateListTemplateSections:
             guard let args = call.arguments as? [String : Any] else {
                 result(false)
