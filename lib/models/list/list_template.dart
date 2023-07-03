@@ -92,6 +92,10 @@ class CPListTemplate implements CPNavigableTemplate {
     return _elementId;
   }
 
+  static Future<int?> getMaximumItemCount() async {
+    return await FlutterCarPlayController.getListTemplateMaximumItemCount();
+  }
+
   void updateSections(List<CPListSection> updatedSections) {
     sections.clear();
     sections.addAll(updatedSections);
