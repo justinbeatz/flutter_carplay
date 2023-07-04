@@ -108,6 +108,14 @@ class FlutterCarPlayController {
     FlutterCarplay.updateNowPlayingButtons(buttons: nowPlayingButtons);
   }
 
+  static Future<int?> getListTemplateMaximumItemCount() {
+    return _methodChannel.invokeMethod<int>(
+      CPEnumUtils.stringFromEnum(
+        FCPChannelTypes.getListTemplateMaximumItemCount.toString(),
+      ),
+    );
+  }
+
   static void updateCPListTemplateSections(CPListTemplate updatedListTemplate) {
     _methodChannel.invokeMethod(
       'updateListTemplateSections',

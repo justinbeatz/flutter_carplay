@@ -18,6 +18,7 @@ public class SwiftFlutterCarplayPlugin: NSObject, FlutterPlugin {
   public static var animated: Bool = false
   private var objcPresentTemplate: FCPPresentTemplate?
   private static var isCarplayConnected = false
+  private static var nowPlayingButtons: [FCPNowPlayingButton] = []
   
   public static var rootTemplate: CPTemplate? {
     get {
@@ -106,6 +107,10 @@ public class SwiftFlutterCarplayPlugin: NSObject, FlutterPlugin {
                 item.update(text: text, detailText: detailText, image: image, playbackProgress: playbackProgress, isPlaying: isPlaying, playingIndicatorLocation: playingIndicatorLocation, accessoryType: accessoryType, accessoryIcon: accessoryIcon)
             })
             result(true)
+            break
+        case FCPChannelTypes.getListTemplateMaximumItemCount:
+            let maxItemCount = CPListTemplate.maximumItemCount
+            result(maxItemCount)
             break
         case FCPChannelTypes.updateListTemplateSections:
             guard let args = call.arguments as? [String : Any] else {
@@ -214,8 +219,13 @@ public class SwiftFlutterCarplayPlugin: NSObject, FlutterPlugin {
             }
             var buttons: [CPNowPlayingButton] = []
             let newButtons = args["buttons"] as! Array<[String : Any]>
+            SwiftFlutterCarplayPlugin.nowPlayingButtons = []
             for button in newButtons {
-                buttons.append(FCPNowPlayingButton(obj: button).get)
+                SwiftFlutterCarplayPlugin.nowPlayingButtons.append(FCPNowPlayingButton(obj: button))
+            }
+            
+            for button in SwiftFlutterCarplayPlugin.nowPlayingButtons {
+                buttons.append(button.get)
             }
             
             CPNowPlayingTemplate.shared.updateNowPlayingButtons(buttons)
