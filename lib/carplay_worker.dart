@@ -247,6 +247,9 @@ class FlutterCarplay {
   /// Removes all of the templates from the navigation hierarchy except the root template.
   /// If animated is true, CarPlay animates the presentation of the template.
   static Future<bool> popToRoot({bool animated = true}) async {
+    if (FlutterCarPlayController.currentRootTemplate == null) {
+      return false;
+    }
     FlutterCarPlayController.templateHistory = [
       FlutterCarPlayController.currentRootTemplate!
     ];

@@ -18,6 +18,7 @@ public class SwiftFlutterCarplayPlugin: NSObject, FlutterPlugin {
   public static var animated: Bool = false
   private var objcPresentTemplate: FCPPresentTemplate?
   private static var isCarplayConnected = false
+  private static var nowPlayingButtons: [FCPNowPlayingButton] = []
   
   public static var rootTemplate: CPTemplate? {
     get {
@@ -218,8 +219,13 @@ public class SwiftFlutterCarplayPlugin: NSObject, FlutterPlugin {
             }
             var buttons: [CPNowPlayingButton] = []
             let newButtons = args["buttons"] as! Array<[String : Any]>
+            SwiftFlutterCarplayPlugin.nowPlayingButtons = []
             for button in newButtons {
-                buttons.append(FCPNowPlayingButton(obj: button).get)
+                SwiftFlutterCarplayPlugin.nowPlayingButtons.append(FCPNowPlayingButton(obj: button))
+            }
+            
+            for button in SwiftFlutterCarplayPlugin.nowPlayingButtons {
+                buttons.append(button.get)
             }
             
             CPNowPlayingTemplate.shared.updateNowPlayingButtons(buttons)
