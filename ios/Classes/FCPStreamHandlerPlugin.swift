@@ -13,15 +13,18 @@ class FCPStreamHandlerPlugin: NSObject, FlutterStreamHandler {
   
   public required init(registrar: FlutterPluginRegistrar) {
     super.init()
+    let channelName = makeFCPChannelId(event: "/event")
     let eventChannel = FlutterEventChannel(name: makeFCPChannelId(event: "/event"),
                                            binaryMessenger: registrar.messenger())
     eventChannel.setStreamHandler(self)
+    print("FCPStreamHandlerPlugin: Initialized event channel with name=\(channelName)")
     return
   }
   
   public func onListen(withArguments arguments: Any?,
                        eventSink: @escaping FlutterEventSink) -> FlutterError? {
     FCPStreamHandlerPlugin.eventSink = eventSink
+    print("FCPStreamHandlerPlugin: Started listening for events")
     return nil
   }
   
@@ -31,9 +34,10 @@ class FCPStreamHandlerPlugin: NSObject, FlutterStreamHandler {
   
   public static func sendEvent(type: String, data: Dictionary<String, Any>) {
     guard let eventSink = FCPStreamHandlerPlugin.eventSink else {
+        print("FCPStreamHandlerPlugin: No event sink available for type=\(type), data=\(data)")
       return
     }
-    
+    print("FCPStreamHandlerPlugin: Sending event type=\(type), data=\(data)")
     eventSink([
       "type": type,
       "data": data,
@@ -42,6 +46,7 @@ class FCPStreamHandlerPlugin: NSObject, FlutterStreamHandler {
   
   public func onCancel(withArguments arguments: Any?) -> FlutterError? {
     FCPStreamHandlerPlugin.eventSink = nil
+    print("FCPStreamHandlerPlugin: Cancelled event listening")
     return nil
   }
 }

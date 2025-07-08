@@ -17,18 +17,23 @@ class CPBarButton {
   /// Fired when the user taps a bar button.
   final Function() onPress;
 
+  /// The icon to display on the bar button.
+  String? systemIcon;
+
   /// Creates [CPBarButton] with a title, style and handler.
   CPBarButton({
     required this.title,
     this.style = CPBarButtonStyles.rounded,
     required this.onPress,
+    this.systemIcon,
   });
 
   Map<String, dynamic> toJson() => {
-        "_elementId": _elementId,
-        "title": title,
-        "style": CPEnumUtils.stringFromEnum(style.toString()),
-      };
+    "_elementId": _elementId,
+    "title": title,
+    "style": CPEnumUtils.stringFromEnum(style.toString()),
+    "systemIcon": systemIcon ?? "",
+  };
 
   String get uniqueId {
     return _elementId;

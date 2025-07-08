@@ -21,8 +21,11 @@ class FCPListTemplate {
   private var templateType: FCPListTemplateTypes
   private var objcBackButton: FCPBarButton?
   private var backButton: CPBarButton?
+  private var objcTrailingNavigationBarButtons: [FCPBarButton] = []
+  private var trailingNavigationBarButtons: [CPBarButton] = []
   
   init(obj: [String : Any], templateType: FCPListTemplateTypes) {
+    print("FCPListTemplate: Initializing with obj=\(obj)")
     self.elementId = obj["_elementId"] as! String
     self.title = obj["title"] as? String
     self.systemIcon = obj["systemIcon"] as! String
@@ -41,9 +44,14 @@ class FCPListTemplate {
       self.objcBackButton = FCPBarButton(obj: backButtonData!)
       self.backButton = self.objcBackButton?.get
     }
+    let trailingButtonsData = obj["trailingNavigationBarButtons"] as? [[String : Any]] ?? []
+    print("FCPListTemplate: Processing trailingNavigationBarButtons, count=\(trailingButtonsData.count)")
+    self.objcTrailingNavigationBarButtons = trailingButtonsData.map { FCPBarButton(obj: $0) }
+    self.trailingNavigationBarButtons = self.objcTrailingNavigationBarButtons.map { $0.get }
   }
   
   var get: CPListTemplate {
+    print("FCPListTemplate: Creating CPListTemplate, title=\(title ?? "none"), sections=\(sections.count), trailingButtons=\(trailingNavigationBarButtons.count)")
     let listTemplate = CPListTemplate.init(title: title, sections: sections)
     listTemplate.emptyViewTitleVariants = emptyViewTitleVariants
     listTemplate.emptyViewSubtitleVariants = emptyViewSubtitleVariants
@@ -52,6 +60,7 @@ class FCPListTemplate {
     if (templateType == FCPListTemplateTypes.DEFAULT) {
       listTemplate.backButton = self.backButton
     }
+    listTemplate.trailingNavigationBarButtons = self.trailingNavigationBarButtons
     self._super = listTemplate
     return listTemplate
   }

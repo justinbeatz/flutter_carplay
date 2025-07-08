@@ -43,7 +43,7 @@ void main() {
     test('make FCP channel id', () {
       String channelId = flutterCarplayHelper.makeFCPChannelId(event: '/event');
 
-      expect(channelId, 'com.oguzhnatly.flutter_carplay/event');
+      expect(channelId, 'com.lightcast.mobile30001/event');
     });
   });
 }
