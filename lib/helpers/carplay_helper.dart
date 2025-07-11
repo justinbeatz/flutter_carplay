@@ -34,5 +34,5 @@ class FlutterCarplayHelper {
   }
 
   String makeFCPChannelId({String? event = ""}) =>
-      'com.lightcast.mobile30001${event!}';
+      'com.oguzhnatly.flutter_carplay${event!}';
 }
